@@ -13,8 +13,8 @@
  * Create a canvas, hides the cursor
 */
 function setup() {
-    // A 640x480 canvas
-    createCanvas(640, 640);
+    // A 480x480 canvas
+    createCanvas(500, 500);
 
     // Don't show the cursor
     noCursor();
@@ -26,7 +26,7 @@ function setup() {
 */
 function draw() {
     // Make the background black (specified as RGB)
-    background(0, 0, 0);
+    background(0, 255, 9);
 
     // Draw a pyramid
     // How many levels for the pyramid
@@ -49,7 +49,7 @@ function draw() {
         // (320, 320) with a size based on the level
         // e.g. level 1 will be a 48x48 rectangle and
         // level 10 will be a 480x480 rectangle
-        rect(320, 320, level * 48, level * 48);
+        rect(250, 250, level * 50, level * 50);
         pop();
     }
 
