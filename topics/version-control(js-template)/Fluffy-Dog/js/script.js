@@ -10,6 +10,9 @@
  */
 function setup() {
     createCanvas(400, 400);
+
+    // Set angle mode so that atan2() returns angles in degrees
+    angleMode(DEGREES);
 }
 
 /**
@@ -55,23 +58,43 @@ function drawHead() {
 }
 
 /**
- * Draws the dogs two eyes
+ * Draws the dogs eyes, which follow the cursor
  */
 function drawEyes() {
-    // Left dog eye
+    // Draw left eye
+    let leftEyeX = 150;
+    let leftEyeY = 350;
+
+    // Calculate angle between left eye and mouse
+    let leftAngle = atan2(mouseY - leftEyeY, mouseX - leftEyeX);
+
     push();
+    translate(leftEyeX, leftEyeY);
+    // Eye white
     fill(255);
-    ellipse(150, 350, 30);
+    ellipse(0, 0, 40);
+    rotate(leftAngle);
+    // Pupil
     fill(0);
-    ellipse(150, 350, 25);
+    ellipse(10, 0, 25);
     pop();
 
-    // Right dog eye
+    // Draw right eye
+    let rightEyeX = 250;
+    let rightEyeY = 350;
+
+    // Calculate angle betwen right eye and mouse
+    let rightAngle = atan2(mouseY - rightEyeY, mouseX - rightEyeX);
+
     push();
+    translate(rightEyeX, rightEyeY);
     fill(255);
-    ellipse(250, 350, 30);
+    // Eye white
+    ellipse(0, 0, 40);
+    rotate(rightAngle);
+    //Pupil
     fill(0);
-    ellipse(250, 350, 25);
+    ellipse(10, 0, 25);
     pop();
 }
 
