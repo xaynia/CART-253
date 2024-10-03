@@ -82,7 +82,7 @@ function drawNose() {
     // dog nose
     push();
     fill(0);
-    triangle(190, 340, 210, 340, 200, 360);
+    triangle(190, 350, 210, 350, 200, 360);
     pop();
 }
 
