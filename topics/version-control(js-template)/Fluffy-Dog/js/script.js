@@ -1,16 +1,13 @@
 /**
- * Dog
+ * Grizzly At Sunset
  * Acacia Williams
  *
- * Here is a fluffy dog
+ * My pomeranian Grizzly enjoys a sunset and shooting stars. He seems distracted by the mouse too.
  */
 
 // Custom variable for x coordinate of clouds - so they move!
 let cloudOneX = 50;
 
-// Custom variable for moving shooting stars
-let lineXone = 0;
-let lineYone = 0;
 
 // Moon-rise variables
 // custom variable for intial moon position (point below horizon)
@@ -20,6 +17,7 @@ let moonHeight = 400;
 let redVal = 135;
 let greenVal = 206;
 let blueVal = 235;
+
 
 /**
  * Creates the canvas
@@ -117,10 +115,6 @@ function draw() {
     fill(34, 139, 34);
     triangle(325, 330, 345, 240 - frameCount % 290, 370, 330);
 
-    //shooting star
-    stroke("yellow");
-    line(lineXone, lineYone, lineXone + 30, lineYone - 30);
-
     // Reduce moon height
     if (moonHeight > 70) {
         moonHeight -= 2;
@@ -149,13 +143,12 @@ function draw() {
         }
     }
 
-    // Shooting stars should only appear when the sky is midnight blue
+    // When sky turns midnight blue, let there be shooting stars!
     if (redVal == 25 && greenVal == 25 && blueVal == 112) {
-        // Shooting star appears
+        // Shooting star
         stroke("yellow");
         line(lineXone, lineYone, lineXone + 30, lineYone - 30);
-
-        // Update shooting star position
+        // Randomize shooting star position
         lineXone = random(0, width);
         lineYone = random(0, height / 2);
     }
@@ -164,9 +157,6 @@ function draw() {
     drawDog();
 }
 
-// No stroke everywhere!
-noStroke();
-drawDog();
 /**
  * Draws the dog
  */
@@ -181,7 +171,6 @@ function drawDog() {
  * Draws the dog's head (including its ears)
  */
 function drawHead() {
-
     // dog head
     push();
     fill(210, 125, 45);
