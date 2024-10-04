@@ -12,6 +12,15 @@ let cloudOneX = 50;
 let lineXone = 0;
 let lineYone = 0;
 
+// Moon-rise variables
+// custom variable for intial moon position (point below horizon)
+let moonHeight = 400;
+
+// Initial sky color (sky blue)
+let redVal = 135;
+let greenVal = 206;
+let blueVal = 235;
+
 /**
  * Creates the canvas
  */
@@ -26,16 +35,16 @@ function setup() {
  * Draw background
  */
 function draw() {
+
     // Midnight blue background
-    background(25, 25, 112);
+    background(redVal, greenVal, blueVal);
 
     // Moon (cream)
     fill(255, 253, 208);
-    circle(350, 50, 100);
-    // Overlap with midnight blue sky color to create crescent moon
-    stroke(25, 25, 112);
-    fill(25, 25, 112);
-    circle(320, 50, 100);
+    circle(180, moonHeight, 100);
+    // Another circle to make crescent moon
+    fill(redVal, greenVal, blueVal);
+    circle(150, moonHeight, 100);
 
     // Grey mountains
     stroke(80);
@@ -112,12 +121,52 @@ function draw() {
     stroke("yellow");
     line(lineXone, lineYone, lineXone + 30, lineYone - 30);
 
+    // Reduce moon height
+    if (moonHeight > 70) {
+        moonHeight -= 2;
 
-    // No stroke everywhere!
+        // Adjust color variables from inital sky blue for sunset effect
+        if (moonHeight > 300) {
+            // Sky blue -> Amber transition
+            redVal = map(moonHeight, 400, 300, 135, 255);
+            greenVal = map(moonHeight, 400, 300, 206, 191);
+            blueVal = map(moonHeight, 400, 300, 235, 0);
+        } else if (moonHeight > 200) {
+            // Amber -> Salmon transition
+            redVal = 255;  // Red stays 255 (amber's red value)
+            greenVal = map(moonHeight, 300, 200, 191, 128);
+            blueVal = map(moonHeight, 300, 200, 0, 114);
+        } else if (moonHeight > 100) {
+            // Salmon -> Midnight Blue transition
+            redVal = map(moonHeight, 200, 100, 250, 25);
+            greenVal = map(moonHeight, 200, 100, 128, 25);
+            blueVal = map(moonHeight, 200, 100, 114, 112);
+        } else {
+            // Final stage to reach midnight blue
+            redVal = 25;
+            greenVal = 25;
+            blueVal = 112;
+        }
+    }
+
+    // Shooting stars should only appear when the sky is midnight blue
+    if (redVal == 25 && greenVal == 25 && blueVal == 112) {
+        // Shooting star appears
+        stroke("yellow");
+        line(lineXone, lineYone, lineXone + 30, lineYone - 30);
+
+        // Update shooting star position
+        lineXone = random(0, width);
+        lineYone = random(0, height / 2);
+    }
+
     noStroke();
     drawDog();
 }
 
+// No stroke everywhere!
+noStroke();
+drawDog();
 /**
  * Draws the dog
  */
