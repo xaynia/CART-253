@@ -30,7 +30,7 @@ function setup() {
 }
 
 /**
- * Draw backgroundGG
+ * Draw background
  */
 function draw() {
 
