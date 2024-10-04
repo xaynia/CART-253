@@ -2,7 +2,7 @@
 
 Acacia Williams
 
-https://github.com/xaynia/CART253/tree/main https://xaynia.github.io/CART253/topics/Assignments/Grizzly-At-Sunset/
+https://github.com/xaynia/CART253/tree/main https://xaynia.github.io/CART253/topics/Assignments/Art-Jam
 
 
 ## Description
