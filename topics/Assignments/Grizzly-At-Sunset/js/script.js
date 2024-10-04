@@ -56,8 +56,8 @@ function draw() {
     rect(0, 300, 400, 100);
 
     // Clouds (white)
-    stroke(255);
-    fill(255);
+    stroke(255, 1);
+    fill(255, 255, 255, 150);
     // Cloud 1: left cloud
     ellipse(cloudOneX, 50, 80, 40);
     // More clouds!!!
