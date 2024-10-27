@@ -48,11 +48,15 @@ const frog = {
 
 // Our fly
 // Has a position, size, and speed of horizontal movement
+const baseSpeed = 3;     // Starting speed of the fly
+const speedIncrement = 0.5; // Increase in speed for every few points
+
 const fly = {
     x: 0,
     y: 200, // Will be random
     size: 10,
     speed: 3
+
 };
 
 // for padding
@@ -151,6 +155,8 @@ function displayScore() {
  * Resets the fly if it gets all the way to the right
  */
 function moveFly() {
+    // Calculate progressive speed based on score
+    fly.speed = baseSpeed + Math.floor(score / 5) * speedIncrement;
     // Move the fly
     fly.x += fly.speed;
     // Handle fly going off canvas
