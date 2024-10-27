@@ -2,7 +2,8 @@
 
 Acacia Williams
 
-https://github.com/xaynia/CART253/tree/main https://xaynia.github.io/CART253/topics/Assignments/Art-Jam
+https://xaynia.github.io/CART253/topics/Assignments/Art-Jam
+https://github.com/xaynia/CART253/tree/main 
 
 
 ## Description
