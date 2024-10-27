@@ -15,15 +15,23 @@
 
 "use strict";
 
+
+// Font
+let pixelFont;
+
+function preload() {
+    pixelFont = loadFont('assets/rainyhearts.ttf'); // Load font from assets folder
+}
+
+
 // Start Screen
 let gameState = "start";
 
+// Starting parameters (starting lives, high score, )
 let lives = 3;          // Starting lives
-// Score variable
-let score = 0;
+let score = 0; // Score variable
 let highScore = 0;      // Initial high score
 let gameOver = false;   // Game state to check if the game is over
-
 
 
 // Our frog
@@ -96,6 +104,8 @@ function keyPressed() {
  */
 function setup() {
     let canvas = createCanvas(640, 480);
+    textFont(pixelFont);
+    textSize(32);
     canvas.id('gameCanvas'); // Assigns an ID to the canvas
 
     // Give the fly its first random position
@@ -135,6 +145,9 @@ function draw() {
     }
 }
 
+/**
+ * Displays Lives (out of 3)
+ */
 function displayLives() {
     for (let i = 0; i < lives; i++) {
         fill("#ff0000"); // Red hearts
@@ -143,6 +156,9 @@ function displayLives() {
     }
 }
 
+/**
+ * Displays score (per fly)
+ */
 function displayScore() {
     fill(0);
     textSize(20);
@@ -179,7 +195,19 @@ function drawFly() {
     push();
     noStroke();
     fill("#000000");
-    ellipse(fly.x, fly.y, fly.size);
+    rect(fly.x, fly.y, fly.size);
+    // Wing color (can be light gray for contrast)
+    fill("#000000");
+
+    // Calculate positions for wings (adjust offsets for best look)
+    const wingOffsetX = fly.size / 2 + 2; // Position wings slightly to the sides
+    const wingOffsetY = fly.size / 4;     // Position wings slightly above the center
+
+    // Draw left wing
+    rect(fly.x - wingOffsetX, fly.y - wingOffsetY, 2, 2);
+
+    // Draw right wing
+    rect(fly.x + fly.size - 2 + wingOffsetX - fly.size / 2, fly.y - wingOffsetY, 2, 2);
     pop();
 }
 
@@ -248,7 +276,8 @@ function drawFrog() {
     push();
     fill("#00ff00");
     noStroke();
-    ellipse(frog.body.x, frog.body.y, frog.body.size);
+    // ellipse(frog.body.x, frog.body.y, frog.body.size);
+    rect(frog.body.x - frog.body.size / 2, frog.body.y - frog.body.size / 2, frog.body.size, frog.body.size);
     pop();
 
     // Draw frog eyes
@@ -256,13 +285,13 @@ function drawFrog() {
     noStroke();
     fill("#000000"); // Color for the pupils
     // Calculate pupil positions
-    const leftPupilX = frog.body.x - frog.body.size / 3;
+    const leftPupilX = frog.body.x - frog.body.size / 2;
     const rightPupilX = frog.body.x + frog.body.size / 3;
     const pupilY = frog.body.y - frog.body.size / 2.5;
     const pupilSize = frog.body.size / 6;
     // Draw pupils
-    ellipse(leftPupilX, pupilY, pupilSize);
-    ellipse(rightPupilX, pupilY, pupilSize);
+    rect(leftPupilX, pupilY, pupilSize);
+    rect(rightPupilX, pupilY, pupilSize);
     pop();
 
     // Draw frog nostrils
@@ -270,13 +299,13 @@ function drawFrog() {
     noStroke();
     fill("#000000"); // Color for the nostrils
     // Calculate nostril positions
-    const leftNostrilX = frog.body.x - frog.body.size / 10;
+    const leftNostrilX = frog.body.x - frog.body.size / 9;
     const rightNostrilX = frog.body.x + frog.body.size / 10;
     const nostrilY = frog.body.y - frog.body.size / 2.2; // Vertical Nostril position (lower = higher)
     const nostrilSize = frog.body.size / 30; // Nostril size (higher = smaller)
     // Draw nostrils
-    ellipse(leftNostrilX, nostrilY, nostrilSize);
-    ellipse(rightNostrilX, nostrilY, nostrilSize);
+    rect(leftNostrilX, nostrilY, nostrilSize);
+    rect(rightNostrilX, nostrilY, nostrilSize);
     pop();
 }
 
