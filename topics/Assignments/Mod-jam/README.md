@@ -1,8 +1,8 @@
 # Frogfrogfrog
 
-A game about catching flies.
+A game about a frog catching flies.
 
-[Play it!](https://pippinbarr.github.io/cart253-examples/topics/making/frogfrogfrog/index.html)
+[Play it!](https://xaynia.github.io/CART253/topics/Assignments/Mod-jam/)
 
 - [Ideas](./ideas.md)
 - [Planning](./planning.md)

@@ -18,10 +18,9 @@
 
 // Font
 let pixelFont;
-
-function preload() {
-    pixelFont = loadFont('assets/rainyhearts.ttf'); // Load font from assets folder
-}
+// Sounds
+let slurpSound;
+let backgroundMusic;
 
 
 // Start Screen
@@ -98,24 +97,37 @@ function keyPressed() {
     }
 }
 
+// Load assets
+function preload() {
+    pixelFont = loadFont('assets/rainyhearts.ttf');
+    slurpSound = loadSound('assets/sounds/slurp.wav');
+    backgroundMusic = loadSound('assets/sounds/8-bit-loop.mp3');
+}
+
 
 /**
  * Creates the canvas and initializes the fly
  */
 function setup() {
     let canvas = createCanvas(640, 480);
-    textFont(pixelFont);
+    canvas.id('gameCanvas');
+    if (pixelFont) {
+        textFont(pixelFont);
+    } else {
+        console.warn("Font loading failed");
+    }
     textSize(32);
-    canvas.id('gameCanvas'); // Assigns an ID to the canvas
+    textAlign(CENTER, CENTER);
 
-    // Give the fly its first random position
-    resetFly();
+    // Loop background music
+    backgroundMusic.loop();
 }
 
 
 
 function draw() {
     background("#87ceeb");
+
 
     if (gameState === "start") {
         // Display start screen
@@ -195,19 +207,19 @@ function drawFly() {
     push();
     noStroke();
     fill("#000000");
-    rect(fly.x, fly.y, fly.size);
-    // Wing color (can be light gray for contrast)
+    // Draw the body as a square
+    rectMode(CENTER); // Center the rectangles for easier positioning
+    rect(fly.x, fly.y, fly.size, fly.size);
+
+    // Wings
     fill("#000000");
-
-    // Calculate positions for wings (adjust offsets for best look)
-    const wingOffsetX = fly.size / 2 + 2; // Position wings slightly to the sides
-    const wingOffsetY = fly.size / 4;     // Position wings slightly above the center
-
-    // Draw left wing
-    rect(fly.x - wingOffsetX, fly.y - wingOffsetY, 2, 2);
+    const wingOffsetX = fly.size * 0.5;  // Horizontal spacing from the body
+    const wingOffsetY = fly.size * .5;  // Increase this value to move wings higher
+    //left wing
+    rect(fly.x - wingOffsetX, fly.y - wingOffsetY, fly.size * 0.6, fly.size * 0.4);
 
     // Draw right wing
-    rect(fly.x + fly.size - 2 + wingOffsetX - fly.size / 2, fly.y - wingOffsetY, 2, 2);
+    rect(fly.x + wingOffsetX, fly.y - wingOffsetY, fly.size * 0.6, fly.size * 0.4);
     pop();
 }
 
@@ -258,18 +270,19 @@ function moveTongue() {
  * Displays the tongue (tip and line connection) and the frog (body)
  */
 function drawFrog() {
-    // Draw the tongue tip
+    // Draw tongue
     push();
-    fill("#ff0000");
-    noStroke();
-    ellipse(frog.tongue.x, frog.tongue.y, frog.tongue.size);
-    pop();
-
-    // Draw the rest of the tongue
-    push();
-    stroke("#ff0000");
+    stroke("#FAA0A0");
     strokeWeight(frog.tongue.size);
     line(frog.tongue.x, frog.tongue.y, frog.body.x, frog.body.y);
+    pop();
+
+    // Draw the tongue tip
+    push();
+    fill("#DE3163");
+    noStroke();
+    rectMode(CENTER);
+    rect(frog.tongue.x, frog.tongue.y, frog.tongue.size);
     pop();
 
     // Draw the frog's body
@@ -324,6 +337,8 @@ function checkTongueFlyOverlap() {
         score++;
         // Bring back the tongue
         frog.tongue.state = "inbound";
+        // Play slurp sound effect
+        slurpSound.play();
     }
 }
 

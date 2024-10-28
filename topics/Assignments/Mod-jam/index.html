@@ -1,42 +1,57 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0>
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Frogfrogfrog</title>
 
   <style>
-    #gameCanvas {
-      border: 100px solid rgb(0, 0, 0);
-      /* Visible color to test */
-      box-shadow: 0 0 20px rgb(0, 0, 0);
-      display: block;
+    /* Arcade container */
+    .arcade-container {
+      position: relative;
+      width: fit-content;
       margin: auto;
+    }
+
+    /* Canvas styling */
+    #gameCanvas {
+      border: 100px solid black;
+      box-shadow: 0 0 20px black;
+      display: block;
       margin-top: 20px;
+    }
+
+    /* Title styling */
+    .arcade-title {
+      position: absolute;
+      top: 15px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 24px;
+      color: #ffffff;
+      font-family: 'rainyhearts', sans-serif;
     }
   </style>
 
-  <!-- CSS stylesheet(s) -->
-  <link rel="stylesheet" type="text/css" href="css/style.css" />
+  <!-- External CSS -->
+  <link rel="stylesheet" href="css/style.css">
 
-  <!-- Library script(s) -->
-
-  <!-- p5.min.js is the main p5 library -->
+  <!-- p5.js Library -->
   <script src="js/libraries/p5.min.js"></script>
-  <!-- p5.sound.min.js allows us to use sound -->
+  <!-- p5.sound Library -->
   <script src="js/libraries/p5.sound.min.js"></script>
 
-  <!-- My script(s) -->
-
+  <!-- Custom JavaScript file -->
   <script src="js/script.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/addons/p5.sound.min.js"></script>
 </head>
 
 <body>
-  <!-- HTML would go here if needed. -->
+  <!-- Container for arcade title and canvas -->
+  <div class="arcade-container">
+    <h1 class="arcade-title">Frogfrogfrog</h1>
+  </div>
 </body>
-
-
 
 </html>

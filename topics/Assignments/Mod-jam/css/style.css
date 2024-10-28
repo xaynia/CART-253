@@ -1,12 +1,10 @@
 /*********************************************
-
 Here is a description of any special CSS used.
 In this case it's just padding and margin to 0
-and then centring the canvas (and anything else)
-using the CSS Grid.
+and then centering the canvas (and anything else)
+using CSS Grid.
 
 Also hides overflow.
-
 **********************************************/
 
 body {
@@ -22,9 +20,30 @@ body {
   /* Hide anything that goes off the window size */
 }
 
+/* Container holding the title */
+.arcade-container {
+  position: relative;
+  width: fit-content;
+  margin: auto;
+}
+
+/* Canvas styling */
 #gameCanvas {
   border: 100px solid black;
+  box-shadow: 0 0 20px black;
   display: block;
-  margin: auto;
   margin-top: 20px;
+}
+
+/* Title text styling */
+.arcade-title {
+  position: absolute;
+  top: 1px;
+  /* Adjust to fit inside the top border */
+  left: 50%;
+  transform: translateX(-50%);
+  /* Center the text horizontally */
+  font-size: 58px;
+  color: #ffffff;
+  font-family: 'rainyhearts', sans-serif;
 }
