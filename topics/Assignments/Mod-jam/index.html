@@ -6,52 +6,25 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Frogfrogfrog</title>
 
-  <style>
-    /* Arcade container */
-    .arcade-container {
-      position: relative;
-      width: fit-content;
-      margin: auto;
-    }
-
-    /* Canvas styling */
-    #gameCanvas {
-      border: 100px solid black;
-      box-shadow: 0 0 20px black;
-      display: block;
-      margin-top: 20px;
-    }
-
-    /* Title styling */
-    .arcade-title {
-      position: absolute;
-      top: 15px;
-      left: 50%;
-      transform: translateX(-50%);
-      font-size: 24px;
-      color: #ffffff;
-      font-family: 'rainyhearts', sans-serif;
-    }
-  </style>
-
-  <!-- External CSS -->
+  <!-- External CSS Link -->
   <link rel="stylesheet" href="css/style.css">
-
-  <!-- p5.js Library -->
-  <script src="js/libraries/p5.min.js"></script>
-  <!-- p5.sound Library -->
-  <script src="js/libraries/p5.sound.min.js"></script>
-
-  <!-- Custom JavaScript file -->
-  <script src="js/script.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/addons/p5.sound.min.js"></script>
 </head>
 
 <body>
-  <!-- Container for arcade title and canvas -->
-  <div class="arcade-container">
+  <div class="arcade-container" id="gameContainer">
     <h1 class="arcade-title">Frogfrogfrog</h1>
+    <div class="button-container">
+      <button id="muteButton">Mute</button>
+      <button id="resetButton">Reset</button>
+      <button id="redCircleButton">•</button>
+    </div>
   </div>
+
+  <!-- Place script tags here -->
+  <!-- p5.js Library -->
+  <script src="js/libraries/p5.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/addons/p5.sound.min.js"></script>
+  <script src="js/script.js"></script>
 </body>
 
 </html>

@@ -16,21 +16,16 @@
 "use strict";
 
 
-// Font
-let pixelFont;
-// Sounds
-let slurpSound;
-let backgroundMusic;
-
-
-// Start Screen
-let gameState = "start";
-
 // Starting parameters (starting lives, high score, )
+let pixelFont; // Font
+let slurpSound; // Sounds
+let backgroundMusic;
+let gameState = "start"; // Start Screen
 let lives = 3;          // Starting lives
 let score = 0; // Score variable
 let highScore = 0;      // Initial high score
 let gameOver = false;   // Game state to check if the game is over
+let isMuted = false; // Track mute status
 
 
 // Our frog
@@ -53,6 +48,12 @@ const frog = {
 };
 
 
+// Reference buttons
+const muteButton = document.getElementById("muteButton");
+const resetButton = document.getElementById("resetButton");
+const redCircleButton = document.getElementById("redCircleButton");
+
+
 // Our fly
 // Has a position, size, and speed of horizontal movement
 const baseSpeed = 3;     // Starting speed of the fly
@@ -62,8 +63,8 @@ const fly = {
     x: 0,
     y: 200, // Will be random
     size: 10,
-    speed: 3
-
+    speed: 3,
+    state: 'flying',
 };
 
 // for padding
@@ -110,6 +111,7 @@ function preload() {
  */
 function setup() {
     let canvas = createCanvas(640, 480);
+    canvas.parent('gameContainer'); // Attach canvas to the arcade-container
     canvas.id('gameCanvas');
     if (pixelFont) {
         textFont(pixelFont);
@@ -121,13 +123,14 @@ function setup() {
 
     // Loop background music
     backgroundMusic.loop();
+    // louder slurp function
+    slurpSound.setVolume(2); // Adjust this value to control volume
 }
 
 
 
 function draw() {
     background("#87ceeb");
-
 
     if (gameState === "start") {
         // Display start screen
@@ -183,45 +186,51 @@ function displayScore() {
  * Resets the fly if it gets all the way to the right
  */
 function moveFly() {
-    // Calculate progressive speed based on score
-    fly.speed = baseSpeed + Math.floor(score / 5) * speedIncrement;
-    // Move the fly
-    fly.x += fly.speed;
-    // Handle fly going off canvas
-    if (fly.x > width) {
-        resetFly();
-        lives--;          // Deduct a life if fly is missed
-        if (lives <= 0) {
-            gameOver = true;
-            if (score > highScore) {
-                highScore = score; // Update high score if new score is higher
+    if (fly.state === 'flying') {
+        // Calculate progressive speed based on score
+        fly.speed = baseSpeed + Math.floor(score / 5) * speedIncrement;
+        // Move the fly
+        fly.x += fly.speed;
+        // Handle fly going off canvas
+        if (fly.x > width) {
+            resetFly();
+            lives--; // Deduct a life if fly is missed
+            if (lives <= 0) {
+                gameOver = true;
+                if (score > highScore) {
+                    highScore = score; // Update high score if new score is higher
+                }
             }
         }
+    } else if (fly.state === 'caught') {
+        // Make the fly follow the tip of the tongue
+        fly.x = frog.tongue.x;
+        fly.y = frog.tongue.y;
     }
 }
+
 
 /**
  * Draws the fly as a black circle
  */
 function drawFly() {
-    push();
-    noStroke();
-    fill("#000000");
-    // Draw the body as a square
-    rectMode(CENTER); // Center the rectangles for easier positioning
-    rect(fly.x, fly.y, fly.size, fly.size);
+    if (fly.state === 'flying' || fly.state === 'caught') {
+        push();
+        noStroke();
+        fill("#000000");
+        rectMode(CENTER);
+        rect(fly.x, fly.y, fly.size, fly.size);
 
-    // Wings
-    fill("#000000");
-    const wingOffsetX = fly.size * 0.5;  // Horizontal spacing from the body
-    const wingOffsetY = fly.size * .5;  // Increase this value to move wings higher
-    //left wing
-    rect(fly.x - wingOffsetX, fly.y - wingOffsetY, fly.size * 0.6, fly.size * 0.4);
-
-    // Draw right wing
-    rect(fly.x + wingOffsetX, fly.y - wingOffsetY, fly.size * 0.6, fly.size * 0.4);
-    pop();
+        // Wings
+        fill("#000000");
+        const wingOffsetX = fly.size * 0.5; // Horizontal spacing from body
+        const wingOffsetY = fly.size * 0.5; // Wing height (Larger number: move wings higher)
+        rect(fly.x - wingOffsetX, fly.y - wingOffsetY, fly.size * 0.6, fly.size * 0.4); // left wing
+        rect(fly.x + wingOffsetX, fly.y - wingOffsetY, fly.size * 0.6, fly.size * 0.4); // right wing
+        pop();
+    }
 }
+
 
 /**
  * Resets the fly to the left with a random y
@@ -229,7 +238,9 @@ function drawFly() {
 function resetFly() {
     fly.x = 0;
     fly.y = random(0, 300);
+    fly.state = 'flying'; // Ensure the fly state is reset
 }
+
 
 /**
  * Moves the frog to the mouse position on x
@@ -242,26 +253,23 @@ function moveFrog() {
  * Handles moving the tongue based on its state
  */
 function moveTongue() {
-    // Tongue matches the frog's x
     frog.tongue.x = frog.body.x;
-    // If the tongue is idle, it doesn't do anything
     if (frog.tongue.state === "idle") {
         // Do nothing
-    }
-    // If the tongue is outbound, it moves up
-    else if (frog.tongue.state === "outbound") {
+    } else if (frog.tongue.state === "outbound") {
         frog.tongue.y += -frog.tongue.speed;
-        // The tongue bounces back if it hits the top
         if (frog.tongue.y <= 0) {
             frog.tongue.state = "inbound";
         }
-    }
-    // If the tongue is inbound, it moves down
-    else if (frog.tongue.state === "inbound") {
+    } else if (frog.tongue.state === "inbound") {
         frog.tongue.y += frog.tongue.speed;
-        // The tongue stops if it hits the bottom
         if (frog.tongue.y >= height) {
+            frog.tongue.y = height;
             frog.tongue.state = "idle";
+            if (fly.state === 'caught') {
+                resetFly();
+                score++;
+            }
         }
     }
 }
@@ -326,19 +334,14 @@ function drawFrog() {
  * Handles the tongue overlapping the fly
  */
 function checkTongueFlyOverlap() {
-    // Get distance from tongue to fly
-    const d = dist(frog.tongue.x, frog.tongue.y, fly.x, fly.y);
-    // Check if it's an overlap
-    const eaten = (d < frog.tongue.size / 2 + fly.size / 2);
-    if (eaten) {
-        // Reset the fly
-        resetFly();
-        // Increment score on catch
-        score++;
-        // Bring back the tongue
-        frog.tongue.state = "inbound";
-        // Play slurp sound effect
-        slurpSound.play();
+    if (fly.state === 'flying') {
+        const d = dist(frog.tongue.x, frog.tongue.y, fly.x, fly.y); // Get distance from tongue to fly
+        const eaten = (d < frog.tongue.size / 2 + fly.size / 2); // Check if it's an overlap
+        if (eaten) {
+            fly.state = 'caught'; // Set fly state to 'caught'
+            frog.tongue.state = "inbound"; // Bring back the tongue
+            slurpSound.play(); // Play slurp sound effect
+        }
     }
 }
 
@@ -373,3 +376,35 @@ function displayGameOver() {
     textSize(16);
     text("Click to Restart", width / 2, height / 2 + 80);
 }
+
+
+// Mute Button Functionality
+muteButton.addEventListener("click", () => {
+    isMuted = !isMuted;
+    if (isMuted) {
+        backgroundMusic.setVolume(0); // Mute the music
+        muteButton.textContent = "Unmute";
+    } else {
+        backgroundMusic.setVolume(1); // Unmute
+        muteButton.textContent = "Mute";
+    }
+});
+
+// Reset Button Functionality
+resetButton.addEventListener("click", () => {
+    // Reset the game state to go back to the title screen
+    gameState = "start";
+    score = 0;
+    lives = 3;
+    gameOver = false;
+
+    // Optionally, stop or reset any other game elements
+    // If there's background music you want to restart:
+    if (!isMuted) backgroundMusic.play(); // Play only if unmuted
+});
+
+// Red Circle Button Functionality
+redCircleButton.addEventListener("click", () => {
+    console.log("Red Circle Button Clicked!");
+    // Add any specific action you want for this button
+});

@@ -7,3 +7,9 @@ A game about a frog catching flies.
 - [Ideas](./ideas.md)
 - [Planning](./planning.md)
 - [Pseudocode](./pseudocode.md)
+
+Sources:
+    Sounds:
+        053_Zorrolamiendoconlalengua-003.wav by aabbccddee123 -- https://freesound.org/s/469933/ -- License: Creative Commons 0
+
+        https://pixabay.com/sound-effects/8-bit-loop-189494/
