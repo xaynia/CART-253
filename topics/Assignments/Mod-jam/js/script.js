@@ -125,6 +125,7 @@ function setup() {
     backgroundMusic.loop();
     // louder slurp function
     slurpSound.setVolume(2); // Adjust this value to control volume
+    cursor(CROSS); // crosshair cursor
 }
 
 
