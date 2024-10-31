@@ -1,6 +1,6 @@
 /**
- * Frogfrogfrog
- * Pippin Barr
+ * Froggy Feast
+ * Acacia Williams
  * 
  * A game of catching flies with your frog-tongue
  * 
@@ -16,7 +16,7 @@
 "use strict";
 
 
-// Starting parameters (starting lives, high score, )
+// Starting parameters (starting screen, lives, high score, sounds, etc )
 let pixelFont; // Font
 let slurpSound; // Sounds
 let backgroundMusic;
@@ -26,6 +26,9 @@ let score = 0; // Score variable
 let highScore = 0;      // Initial high score
 let gameOver = false;   // Game state to check if the game is over
 let isMuted = false; // Track mute status
+let clouds = []; // List to store cloud objects
+let cloudSpawnRate = 200; // Spawn rate in frames (e.g., one cloud every 200 frames)
+let cloudTimer = 0; // Timer to keep track of spawning new clouds
 
 
 // Our frog
@@ -47,14 +50,12 @@ const frog = {
     },
 };
 
-
-// Reference buttons
+// Buttons
 const muteButton = document.getElementById("muteButton");
 const resetButton = document.getElementById("resetButton");
 const redCircleButton = document.getElementById("redCircleButton");
 
-
-// Our fly
+// Fly
 // Has a position, size, and speed of horizontal movement
 const baseSpeed = 3;     // Starting speed of the fly
 const speedIncrement = 0.5; // Increase in speed for every few points
@@ -65,12 +66,46 @@ const fly = {
     size: 10,
     speed: 3,
     state: 'flying',
+    type: 'normal' // property to indicate fly type ('normal' or 'golden')
 };
 
 // for padding
 const padding = 20; // Padding from the edge of the canvas
 const xPadding = 30;  // Extra padding specifically for the x-position
 const yPadding = 20;  // Standard padding for the y-position
+
+// Load assets
+function preload() {
+    pixelFont = loadFont('assets/rainyhearts.ttf');
+    slurpSound = loadSound('assets/sounds/slurp.wav');
+    backgroundMusic = loadSound('assets/sounds/8-bit-loop.mp3');
+}
+
+/**
+ * Creates the canvas and initializes the fly
+ */
+function setup() {
+    let canvas = createCanvas(640, 480);
+    canvas.parent('gameContainer'); // Attach canvas to the arcade-container
+    canvas.id('gameCanvas');
+    populateInitialClouds();
+    if (pixelFont) {
+        textFont(pixelFont);
+    } else {
+        console.warn("Font loading failed");
+    }
+    textSize(32);
+    textAlign(CENTER, CENTER);
+
+    // Background music
+    backgroundMusic.loop();
+    if (isMuted) {
+        backgroundMusic.setVolume(0);
+    }
+    // louder slurp function
+    slurpSound.setVolume(2); // Adjust this value to control volume
+    cursor(CROSS); // crosshair cursor
+}
 
 /**
  * Arcade Style Start Screen
@@ -80,70 +115,39 @@ function displayStartScreen() {
     textSize(48);
     fill(0);
     textAlign(CENTER, CENTER);
-    text("Frogfrogfrog", width / 2, height / 3); // Title text
+    text("Froggy Feast", width / 2, height / 3); // Title text
 
     textSize(24);
     text("Press Enter to Start", width / 2, height / 2); // Start instructions
     text("Move with your mouse, click to catch flies!", width / 2, height / 2 + 40); // Game instructions
-}
 
-/**
- * Start Screen Transition: Pressing Enter only starts the game if the gameState is "start"
- */
-function keyPressed() {
-    if (gameState === "start" && keyCode === ENTER) {
-        gameState = "playing";
-        score = 0; // Reset score when the game starts
-        resetFly(); // Position the fly for a new game
+    // Play background music only once on the title screen
+    if (!isMuted && !backgroundMusic.isPlaying()) {
+        backgroundMusic.play();
     }
 }
-
-// Load assets
-function preload() {
-    pixelFont = loadFont('assets/rainyhearts.ttf');
-    slurpSound = loadSound('assets/sounds/slurp.wav');
-    backgroundMusic = loadSound('assets/sounds/8-bit-loop.mp3');
-}
-
-
-/**
- * Creates the canvas and initializes the fly
- */
-function setup() {
-    let canvas = createCanvas(640, 480);
-    canvas.parent('gameContainer'); // Attach canvas to the arcade-container
-    canvas.id('gameCanvas');
-    if (pixelFont) {
-        textFont(pixelFont);
-    } else {
-        console.warn("Font loading failed");
-    }
-    textSize(32);
-    textAlign(CENTER, CENTER);
-
-    // Loop background music
-    backgroundMusic.loop();
-    // louder slurp function
-    slurpSound.setVolume(2); // Adjust this value to control volume
-    cursor(CROSS); // crosshair cursor
-}
-
-
 
 function draw() {
     background("#87ceeb");
 
+    // Update and draw clouds
+    updateAndDrawClouds();
+
+    // Increment cloud timer
+    cloudTimer++;
+    if (cloudTimer > cloudSpawnRate) {
+        spawnCloud();
+        cloudTimer = 0;
+    }
+
+
     if (gameState === "start") {
-        // Display start screen
-        displayStartScreen();
+        displayStartScreen(); // Display start screen
     }
     else if (gameState === "playing") {
-        // Display lives and score only during gameplay
         displayLives();
         displayScore();
-
-        // Gameplay elements
-        moveFly();
+        moveFly(); // Gameplay elements
         drawFly();
         moveFrog();
         moveTongue();
@@ -159,16 +163,81 @@ function draw() {
         // Display the game over screen
         displayGameOver();
     }
+
 }
 
 /**
- * Displays Lives (out of 3)
+ * Populate the initial list with random clouds to avoid a blank screen
+ */
+function populateInitialClouds() {
+    for (let i = 0; i < 5; i++) {
+        clouds.push(createCloud(random(width), random(20, 100), random(50, 120), random(20, 60)));
+    }
+}
+
+/**
+ * Create a cloud object with random properties
+ */
+function createCloud(x, y, w, h) {
+    return { x, y, width: w, height: h, speed: random(0.3, 2) }; // Each cloud has a slight random speed
+}
+
+/**
+ * Spawn a new cloud at the left side of the screen
+ */
+function spawnCloud() {
+    clouds.push(createCloud(-60, random(20, 100), random(50, 120), random(20, 60)));
+}
+
+/**
+ * Update cloud positions and draw them
+ */
+function updateAndDrawClouds() {
+    for (let i = clouds.length - 1; i >= 0; i--) {
+        let cloud = clouds[i];
+        cloud.x += cloud.speed; // Move cloud to the right
+
+        // Draw cloud 
+        fill(255);
+        noStroke();
+        rect(cloud.x, cloud.y, cloud.width, cloud.height);
+
+        // Remove cloud if it goes off the right side of the screen
+        if (cloud.x > width + cloud.width) {
+            clouds.splice(i, 1);
+        }
+    }
+}
+
+/**
+ * Draws Lives 
+ * as 8 bit Hearts
  */
 function displayLives() {
     for (let i = 0; i < lives; i++) {
+        // Set up the starting position for each heart
+        let x = width - padding - i * 26 - (i * 1);
+        let y = padding;
+
+        // Draw the solid 8-bit heart shape
         fill("#ff0000"); // Red hearts
         noStroke();
-        ellipse(width - padding - i * 25, padding, 15); // Display 3 hearts, top right corner
+
+        // Middle heart
+        rect(x - 5, y + 5, 15, 10);
+        rect(x, y + 15, 5, 5);
+        // Left side of heart
+        rect(x - 5, y, 5, 5);
+        rect(x - 10, y + 5, 5, 5);
+        rect(x - 10, y + 10, 5, 5);
+        rect(x - 5, y + 15, 5, 5);
+        rect(x, y + 20, 5, 5);
+        // Right side of heart
+        rect(x + 5, y, 5, 5);
+        rect(x + 10, y + 5, 5, 5);
+        rect(x + 10, y + 10, 5, 5);
+        rect(x + 5, y + 15, 5, 5);
+        rect(x, y + 20, 5, 5);
     }
 }
 
@@ -188,10 +257,23 @@ function displayScore() {
  */
 function moveFly() {
     if (fly.state === 'flying') {
-        // Calculate progressive speed based on score
-        fly.speed = baseSpeed + Math.floor(score / 5) * speedIncrement;
-        // Move the fly
-        fly.x += fly.speed;
+        fly.speed = baseSpeed + Math.floor(score / 5) * speedIncrement; // Calculate progressive speed based on score
+
+        // Move fly differently if it's golden
+        if (fly.type === 'golden') {
+            // Add random movement on x and y axes for a "buzzy" effect
+            fly.x += fly.speed + random(-5, 5); // buzzy horizontal movement
+            fly.y += random(-5, 5);            // buzzy vertical movement
+
+            // Keep the fly within the vertical boundaries
+            if (fly.y < 0) fly.y = 0;
+            if (fly.y > height - fly.size) fly.y = height - fly.size;
+        } else {
+            // Normal fly: less movement
+            fly.x += fly.speed + random(-1, 1); // buzzy horizontal movement
+            fly.y += random(-1, 1);            // buzzy vertical movement
+        }
+
         // Handle fly going off canvas
         if (fly.x > width) {
             resetFly();
@@ -210,7 +292,6 @@ function moveFly() {
     }
 }
 
-
 /**
  * Draws the fly as a black circle
  */
@@ -218,12 +299,12 @@ function drawFly() {
     if (fly.state === 'flying' || fly.state === 'caught') {
         push();
         noStroke();
-        fill("#000000");
+
+        // Set color based on fly type
+        fill(fly.type === 'golden' ? "#FFD700" : "#000000"); // Golden color if golden fly
         rectMode(CENTER);
         rect(fly.x, fly.y, fly.size, fly.size);
-
         // Wings
-        fill("#000000");
         const wingOffsetX = fly.size * 0.5; // Horizontal spacing from body
         const wingOffsetY = fly.size * 0.5; // Wing height (Larger number: move wings higher)
         rect(fly.x - wingOffsetX, fly.y - wingOffsetY, fly.size * 0.6, fly.size * 0.4); // left wing
@@ -240,6 +321,15 @@ function resetFly() {
     fly.x = 0;
     fly.y = random(0, 300);
     fly.state = 'flying'; // Ensure the fly state is reset
+
+    // 10% chance to create a golden fly
+    if (random(1) < 0.1) {
+        fly.type = 'golden';
+        fly.size = 8; // 
+    } else {
+        fly.type = 'normal';
+        fly.size = 10; // Default size for regular flies
+    }
 }
 
 
@@ -269,7 +359,6 @@ function moveTongue() {
             frog.tongue.state = "idle";
             if (fly.state === 'caught') {
                 resetFly();
-                score++;
             }
         }
     }
@@ -342,6 +431,13 @@ function checkTongueFlyOverlap() {
             fly.state = 'caught'; // Set fly state to 'caught'
             frog.tongue.state = "inbound"; // Bring back the tongue
             slurpSound.play(); // Play slurp sound effect
+
+            // Add points based on fly type
+            if (fly.type === 'golden') {
+                score += 3;
+            } else {
+                score += 1;
+            }
         }
     }
 }
@@ -362,8 +458,28 @@ function mousePressed() {
     }
 }
 
+// Mute Button Functionality
+muteButton.addEventListener("click", () => {
+    isMuted = !isMuted;
+    backgroundMusic.setVolume(isMuted ? 0 : 1);
+    muteButton.textContent = isMuted ? "Unmute" : "Mute";
+});
+
+// Reset Button Functionality
+resetButton.addEventListener("click", () => {
+    gameState = "start";
+    score = 0;
+    lives = 3;
+    gameOver = false;
+    if (!isMuted) {
+        backgroundMusic.setVolume(1);
+    }
+});
+
+
 /**
- * Launch Game over screen (if no hearts): final score, high score, restart
+ * Display Game Over 
+ * final score, high score, restart
  */
 function displayGameOver() {
     background(0);
@@ -376,36 +492,24 @@ function displayGameOver() {
     text(`High Score: ${highScore}`, width / 2, height / 2 + 30);
     textSize(16);
     text("Click to Restart", width / 2, height / 2 + 80);
+
+    // Stop background music on game over
+    backgroundMusic.stop();
 }
 
 
-// Mute Button Functionality
-muteButton.addEventListener("click", () => {
-    isMuted = !isMuted;
-    if (isMuted) {
-        backgroundMusic.setVolume(0); // Mute the music
-        muteButton.textContent = "Unmute";
-    } else {
-        backgroundMusic.setVolume(1); // Unmute
-        muteButton.textContent = "Mute";
+/**
+ * Start Screen Transition: Pressing Enter only starts the game if the gameState is "start"
+ */
+function keyPressed() {
+    if (gameState === "start" && keyCode === ENTER) {
+        gameState = "playing";
+        score = 0; // Reset score when the game starts
+        resetFly(); // Position the fly for a new game
     }
-});
-
-// Reset Button Functionality
-resetButton.addEventListener("click", () => {
-    // Reset the game state to go back to the title screen
-    gameState = "start";
-    score = 0;
-    lives = 3;
-    gameOver = false;
-
-    // Optionally, stop or reset any other game elements
-    // If there's background music you want to restart:
-    if (!isMuted) backgroundMusic.play(); // Play only if unmuted
-});
+}
 
 // Red Circle Button Functionality
 redCircleButton.addEventListener("click", () => {
     console.log("Red Circle Button Clicked!");
-    // Add any specific action you want for this button
 });

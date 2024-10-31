@@ -43,10 +43,9 @@ body {
   font-family: 'rainyhearts', sans-serif;
 }
 
-/* Button Container Positioned within Bottom Border */
+/* Button Container (Bottom of Border) */
 .button-container {
   position: absolute;
-  /* position above bottom */
   bottom: 70px;
   left: 50%;
   transform: translateX(-50%);
@@ -54,13 +53,9 @@ body {
   /* space between buttons */
   gap: 20px;
   width: fit-content;
-  /* Ensures container resizes to fit buttons */
   flex-direction: row;
-  /* Ensures buttons align horizontally */
   justify-content: center;
-  /* Centers buttons within the container */
   align-items: center;
-  /* Centers buttons vertically */
 }
 
 /* Button Styling */
@@ -79,25 +74,14 @@ body {
 
 #redCircleButton {
   width: 60px;
-  /* Diameter of the circle */
   height: 60px;
-  /* Equal to width for a perfect circle */
   background-color: #FF0000;
-  /* Red color */
   color: white;
-  /* Text color */
   font-size: 24px;
-  /* Adjust for a larger label */
-  font-weight: bold;
-  /* Make the text bold if needed */
   border: none;
-  /* Remove border */
   border-radius: 50%;
-  /* Makes it a circle */
   cursor: pointer;
-  /* Pointer cursor for interactivity */
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-  /* Optional shadow */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -106,7 +90,20 @@ body {
 
 #redCircleButton:hover {
   background-color: #FF3333;
-  /* Darker red on hover */
+}
+
+/* Joystick */
+.joystick-stick {
+  position: fixed;
+  bottom: -30px;
+  /* Position under button */
+  left: calc(50% + 114px);
+  transform: translateX(-50%);
+  width: 8px;
+  height: 30px;
+  background-color: #666666;
+  border-radius: 2px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
 }
 
 .button-container button:hover {
