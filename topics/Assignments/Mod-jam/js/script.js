@@ -108,7 +108,7 @@ function setup() {
 
 /**
  * Arcade Style Start Screen
- * Press enter to start 
+ * Click to start 
  */
 function displayStartScreen() {
     textSize(48);
@@ -117,7 +117,7 @@ function displayStartScreen() {
     text("Froggy Feast", width / 2, height / 3); // Title text
 
     textSize(24);
-    text("Press Enter to Start", width / 2, height / 2); // Start instructions
+    text("Click to Start", width / 2, height / 2); // Start instructions
     text("Move with your mouse, click to catch flies!", width / 2, height / 2 + 40); // Game instructions
 
     // Play background music only once on the title screen
@@ -336,7 +336,7 @@ function resetFly() {
  * Moves the frog to the mouse position on x
  */
 function moveFrog() {
-    frog.body.x = mouseX - 160;
+    frog.body.x = mouseX - 160; // subtract width of border to center frog with mouse
 }
 
 /**
@@ -449,15 +449,20 @@ function checkTongueFlyOverlap() {
  * Launch the tongue on click (if it's not launched yet)
  */
 function mousePressed() {
-    if (gameState === "gameOver") {
-        // Restart the game
+    if (gameState === "start") {
+        // Start the game from the start screen
+        gameState = "playing";
+        score = 0; // Reset score when the game starts
+        resetFly(); // Position the fly for a new game
+    } else if (gameState === "playing" && frog.tongue.state === "idle") {
+        // Launch the tongue if the game is not over
+        frog.tongue.state = "outbound";
+    } else if (gameState === "gameOver") {
+        // Restart the game from the game over screen
         lives = 3;
         score = 0;
         gameOver = false;
         gameState = "start"; // Go back to the start screen
-    } else if (gameState === "playing" && frog.tongue.state === "idle") {
-        // Launch the tongue if the game is not over
-        frog.tongue.state = "outbound";
     }
 }
 
@@ -500,17 +505,6 @@ function displayGameOver() {
     backgroundMusic.stop();
 }
 
-
-/**
- * Start Screen Transition: Pressing Enter only starts the game if the gameState is "start"
- */
-function keyPressed() {
-    if (gameState === "start" && keyCode === ENTER) {
-        gameState = "playing";
-        score = 0; // Reset score when the game starts
-        resetFly(); // Position the fly for a new game
-    }
-}
 
 // Red Circle Button Functionality
 redCircleButton.addEventListener("click", () => {
