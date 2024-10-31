@@ -7,7 +7,7 @@ A game about a frog catching flies, but with advanced features.
 
 - **Title Screen**:
   - Arcade-style appearance.
-  - Instruction to "Press 'Enter' to start."
+  - Instruction to "'Click' to start."
   - **Instructions Display**: "Move with your mouse, click to catch flies."
 
 - **Game Over Screen**:
