@@ -1,49 +1,72 @@
 # Froggy Feast
 
-_A game about a frog catching flies, but more advanced._
+A game about a frog catching flies, but with advanced features.
 
-## Added Features
+---
 
-- **Title Screen**: Arcade-style title screen. Features:
-  - Press 'Enter' to start
-  - Instructions: "Move with your mouse, click to catch flies"
+## Game Flow and Screens
 
-- **Game Over Screen**: Displays your score, overall high score, and an option to click to restart.
+- **Title Screen**:
+  - Arcade-style appearance.
+  - Instruction to "Press 'Enter' to start."
+  - **Instructions Display**: "Move with your mouse, click to catch flies."
 
-- **Score Tracking**: Tracks your score throughout the game.
+- **Game Over Screen**:
+  - Displays final score and overall high score.
+  - Option to click to restart.
 
-- **High Score Tracking**: Tracks your overall high score.
+---
 
-- **Lives**: Start with 3 lives represented by 8-bit hearts. Lose a life each time you miss a fly. Losing all lives sends you to the game over screen.
+## Scoring and Difficulty
 
-- **Increasing Difficulty**: Speed increases with score to progressively raise difficulty.
+- **Score Tracking**: In-game score display to keep track of points.
+- **High Score Tracking**: Saves and displays the highest score achieved.
+- **Lives System**:
+  - Begin with 3 lives, represented by 8-bit hearts.
+  - Lose a life each time you miss a fly.
+  - Game over once all lives are lost, leading to the Game Over Screen.
+- **Increasing Difficulty**: Fly speed increases as score goes up to provide a progressively challenging experience.
 
-- **Sticky Fly**: The fly sticks to the frog’s tongue when caught.
+---
 
-- **Fly "Buzzing" Effect**: Sporadic x and y-axis movements create a buzzing effect (especially for the golden fly).
+## Fly Mechanics and Variations
 
-- **Golden Fly**: A special fly with a 10% chance to spawn. It's smaller, golden, and buzzes more sporadically. Catching it awards 3 points instead of 1.
+- **Sticky Fly Effect**: The fly sticks to the frog’s tongue when caught.
+- **Fly “Buzzing” Effect**: Random x and y-axis movements mimic a buzzing effect.
+- **Golden Fly**:
+  - 10% chance to spawn.
+  - Smaller, golden, and buzzes more sporadically.
+  - Awards 3 points instead of 1 when caught.
 
-- **Buttons**:
-  - **Mute Button**: Mutes and unmutes the music.
-  - **Reset Button**: Resets to the title screen at any point.
-  - **Red Button** (optional): An arcade-style button to trigger the frog’s tongue (optional, for arcade aesthetic).
+---
 
-- **Clouds**: 8-bit clouds spawning in the sky.
+## Audio Controls and Game Buttons
 
-- **Sounds**: Background music and frog slurp sound effect.
+- **Mute Button**: Toggles background music on and off.
+- **Reset Button**: Resets the game to the title screen anytime.
+- **Red Button (Optional)**: An arcade-style button to activate the frog's tongue for an added arcade aesthetic.
 
-- **Arcade-Style Screen**: A border around the canvas, making it look like an 8-bit arcade game.
+---
 
-- **8-bit Style Graphics and Text**: Consistent retro aesthetics throughout the game.
+## Visuals and Graphics
+
+- **Clouds**: 8-bit clouds move across the sky.
+- **Arcade-Style Screen Border**: Creates an 8-bit arcade feel around the game canvas.
+- **8-Bit Style Graphics and Text**: Consistent retro visuals and text format for a nostalgic, arcade experience.
+
+---
+
+## Sound Effects and Background Music
+
+- **Background Music**: Plays continuously during gameplay (can be muted).
+- **Frog Slurp Sound**: Activates whenever the frog catches a fly.
 
 
 
 [Play it!](https://xaynia.github.io/CART253/topics/Assignments/Mod-jam/)
-[Excercise-Code] https://github.com/xaynia/CART253/tree/main/topics/Assignments/Mod-jam
 
-- [Planning](./planning.md)
-- [Pseudocode](./pseudocode.md)
+[Excercise-Code](https://github.com/xaynia/CART253/tree/main/topics/Assignments/Mod-jam)
+
 
 Sources:
 
