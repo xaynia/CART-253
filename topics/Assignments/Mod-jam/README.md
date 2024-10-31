@@ -1,25 +1,42 @@
 # Froggy Feast
 
-A game about a frog catching flies, but more advanced.
+_A game about a frog catching flies, but more advanced._
 
-Added Features:
-    - Title Screen: Arcade style title screen. Features: Press 'enter' to start, and instructions "Move with your mouse, click to catch flies"
-    - Game Over Screen: includes score, overall high score, and click to restart.
-    - Score: tracks your score.
-    - High Sore: tracks your overall high score.
-    - Lives: 3 lives represented by 8-bit hearts, lost by missing a fly (if you lose them all, sends you to game over screen).
-    - Increased speed/difficulty: Increasing speed (correlated with score) progressively increases difficulty.
-    - Fly sticks to frogs tongue.
-    - Fly "buzzing": sporadic movements on x and y axis to create buzzing effect (more for golden fly),
-    - Golden fly: random (10%), smaller, golden fly which buzzes more sporadically. Catch it to earn 3 points (instead of 1).
-    - Buttons:
-        Mute Button: mutes and unmutes music.
-        Reset Button: resets to title screen at any point.
-        Red Button (aesthetic/optional): an arcade style red button to trigger frog tongue (optional/for arcade aesthetic).
-    - Clouds: 8-bit clouds spawning in the sky
-    - Sounds: background music and frog slurp noise.
-    - Arcade style screen: a border around the canvas to make the canvas look like an 8-bit arcade game.
-    - 8-bit style graphics and text.
+## Added Features
+
+- **Title Screen**: Arcade-style title screen. Features:
+  - Press 'Enter' to start
+  - Instructions: "Move with your mouse, click to catch flies"
+
+- **Game Over Screen**: Displays your score, overall high score, and an option to click to restart.
+
+- **Score Tracking**: Tracks your score throughout the game.
+
+- **High Score Tracking**: Tracks your overall high score.
+
+- **Lives**: Start with 3 lives represented by 8-bit hearts. Lose a life each time you miss a fly. Losing all lives sends you to the game over screen.
+
+- **Increasing Difficulty**: Speed increases with score to progressively raise difficulty.
+
+- **Sticky Fly**: The fly sticks to the frog’s tongue when caught.
+
+- **Fly "Buzzing" Effect**: Sporadic x and y-axis movements create a buzzing effect (especially for the golden fly).
+
+- **Golden Fly**: A special fly with a 10% chance to spawn. It's smaller, golden, and buzzes more sporadically. Catching it awards 3 points instead of 1.
+
+- **Buttons**:
+  - **Mute Button**: Mutes and unmutes the music.
+  - **Reset Button**: Resets to the title screen at any point.
+  - **Red Button** (optional): An arcade-style button to trigger the frog’s tongue (optional, for arcade aesthetic).
+
+- **Clouds**: 8-bit clouds spawning in the sky.
+
+- **Sounds**: Background music and frog slurp sound effect.
+
+- **Arcade-Style Screen**: A border around the canvas, making it look like an 8-bit arcade game.
+
+- **8-bit Style Graphics and Text**: Consistent retro aesthetics throughout the game.
+
 
 
 [Play it!](https://xaynia.github.io/CART253/topics/Assignments/Mod-jam/)
