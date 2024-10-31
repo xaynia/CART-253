@@ -15,7 +15,6 @@
 
 "use strict";
 
-
 // Starting parameters (starting screen, lives, high score, sounds, etc )
 let pixelFont; // Font
 let slurpSound; // Sounds
@@ -29,7 +28,6 @@ let isMuted = false; // Track mute status
 let clouds = []; // List to store cloud objects
 let cloudSpawnRate = 200; // Spawn rate in frames (e.g., one cloud every 200 frames)
 let cloudTimer = 0; // Timer to keep track of spawning new clouds
-
 
 // Our frog
 const frog = {
@@ -107,6 +105,7 @@ function setup() {
     cursor(CROSS); // crosshair cursor
 }
 
+
 /**
  * Arcade Style Start Screen
  * Press enter to start 
@@ -147,7 +146,7 @@ function draw() {
     else if (gameState === "playing") {
         displayLives();
         displayScore();
-        moveFly(); // Gameplay elements
+        moveFly();
         drawFly();
         moveFrog();
         moveTongue();
@@ -337,7 +336,7 @@ function resetFly() {
  * Moves the frog to the mouse position on x
  */
 function moveFrog() {
-    frog.body.x = mouseX;
+    frog.body.x = mouseX - 160;
 }
 
 /**
@@ -395,11 +394,13 @@ function drawFrog() {
     push();
     noStroke();
     fill("#000000"); // Color for the pupils
+
     // Calculate pupil positions
     const leftPupilX = frog.body.x - frog.body.size / 2;
     const rightPupilX = frog.body.x + frog.body.size / 3;
     const pupilY = frog.body.y - frog.body.size / 2.5;
     const pupilSize = frog.body.size / 6;
+
     // Draw pupils
     rect(leftPupilX, pupilY, pupilSize);
     rect(rightPupilX, pupilY, pupilSize);
@@ -441,6 +442,8 @@ function checkTongueFlyOverlap() {
         }
     }
 }
+
+
 
 /**
  * Launch the tongue on click (if it's not launched yet)
