@@ -93,7 +93,6 @@ class Game {
 
   /**
    * Checks if the object has landed on the target.
-   * Now the target is smaller to ensure precise landing.
    */
   isLanded() {
     // Make target height smaller for precise landing
@@ -161,8 +160,11 @@ class Game {
 
     this.createWindEffect(mx, my);
 
+    // If it's Laughing Skull variation, open mouth and play laugh sound
     if (this.config.name === "Laughing Skull") {
       this.skullMouthOpen = 1.0;
+      laughSound.play();
+
       for (let i = 0; i < 3; i++) {
         let lx = this.fallingObject.position.x + random(-20, 20);
         let ly = this.fallingObject.position.y + random(-20, 20);

@@ -1,4 +1,5 @@
 /**
+
  * Handles drawing for the Feather Fall variation.
  * Shows sky, mountains, fewer trees, clouds, feather, and nest on top of the tree.
  */
@@ -20,7 +21,7 @@ let treesGenerated = false;
 let trees = [];
 
 /**
- * Resets the feather fall background so each game is fresh.
+ * Resets the feather fall background so each game is unique.
  */
 function resetFeatherfall() {
     clouds = [];
@@ -129,7 +130,7 @@ function drawMountains() {
 }
 
 /**
- * Generates fewer trees at the bottom.
+ * Generates some trees at the bottom.
  */
 function generateTrees() {
     trees = [];
