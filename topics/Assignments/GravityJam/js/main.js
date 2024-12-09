@@ -37,8 +37,8 @@ function setup() {
   }
   let variations = [
     { name: featherVariation.name, config: featherVariation },
-    { name: snowflakeVariation.name, config: null }, // Placeholder
-    { name: skullVariation.name, config: null }      // Placeholder
+    { name: snowflakeVariation.name, config: snowflakeVariation },
+    { name: skullVariation.name, config: skullVariation }
   ];
   titleScreen = new TitleScreen(variations);
 }

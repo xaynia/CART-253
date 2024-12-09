@@ -26,13 +26,34 @@ const featherVariation = {
   inputForceMagnitude: 0.5
 };
 
-// Placeholder configurations for other variations
+// Snowflake Variation Configuration
+// A snowflake falling onto a candle flame
 const snowflakeVariation = {
   name: "Snowflake Sizzle",
-  config: null // Not yet implemented
+  backgroundDraw: drawSnowflakeBackground,
+  objectDraw: drawSnowflake,
+  targetDraw: drawCandle,
+  objectMass: 0.8,
+  gravity: { x: 0, y: 0.015 },
+  targetX: 310,
+  targetY: 400,
+  targetWidth: 20,
+  targetHeight: 50,
+  inputForceMagnitude: 0.3
 };
 
+// Skull Variation Configuration
+// A laughing skull descending onto a throne in a psychedelic background
 const skullVariation = {
   name: "Laughing Skull",
-  config: null // Not yet implemented
+  backgroundDraw: drawSkullBackground,
+  objectDraw: drawSkull,
+  targetDraw: drawThrone,
+  objectMass: 1.2,
+  gravity: { x: 0, y: 0.025 },
+  targetX: 290,
+  targetY: 400,
+  targetWidth: 60,
+  targetHeight: 60,
+  inputForceMagnitude: 0.7
 };
