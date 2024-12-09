@@ -29,4 +29,29 @@ After each successful landing, your “streak” count increases. Consecutive su
 - **Created by:** Acacia Williams  
 - **Built with:** [p5.js](https://p5js.org/) and [p5.sound](https://p5js.org/reference/#/libraries/p5.sound)
 
-Enjoy playing Gravity Jam!
+### Sounds
+
+1.	Ha! 02.wav by 8bitmyketison
+Freesound ID: 699853
+Source: https://freesound.org/s/699853/
+License: Creative Commons 0
+
+3.	lavaburn.wav by memerunknown
+Freesound ID: 670075
+Source: https://freesound.org/s/670075/
+License: Creative Commons 0
+
+3.	light slow swoosh.mp3 by Mikes-MultiMedia
+Freesound ID: 349698
+Source: https://freesound.org/s/349698/
+License: Creative Commons 0
+
+4.	Game Over Arcade
+Source: https://pixabay.com/sound-effects/game-over-arcade-6435/
+License: Pixabay License
+
+5.	Fairy Tale Loop
+Source: https://pixabay.com/sound-effects/fairy-tale-loop-251859/
+License: Pixabay License
+
+# Enjoy playing Gravity Jam!
