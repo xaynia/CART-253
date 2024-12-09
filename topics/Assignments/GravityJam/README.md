@@ -1,5 +1,7 @@
 # Gravity Jam
 
+[Click here to play](https://xaynia.github.io/CART253/topics/Assignments/GravityJam)
+
 **Gravity Jam** is a small game where you guide a falling object onto a target by creating gusts of wind with mouse clicks. Each variation (Feather Fall, Snowflake Sizzle, Laughing Skull) has its own unique theme and physics.
 
 ## How to Play
